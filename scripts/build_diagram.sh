@@ -12,7 +12,7 @@ uv run python scripts/make_architecture_diagram.py \
   --inference-sub "load champion · predict" \
   --ui-sub "match forecast" \
   --feature-store "Hopsworks" \
-  --model-registry "MLflow" \
+  --model-registry "Hopsworks" \
   --feature-trigger "GitHub Actions (daily) · backfill" \
   --training-trigger "scheduled / manual" \
-  --inference-trigger "on pairing publication"
+  --inference-trigger "on demand (UI) / nightly"

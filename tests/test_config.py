@@ -61,12 +61,11 @@ def test_model_uri_uses_alias_not_version():
         source_api_key="k",
         hopsworks_api_key="k",
         hopsworks_project="p",
-        mlflow_tracking_uri="u",
-        mlflow_experiment_name="e",
+        model_registry_project="p",
         model_name="demo",
         model_alias="champion",
     )
-    assert settings.model_uri == "models:/demo@champion"
+    assert settings.model_uri == "demo@champion"
 
 
 def test_redacted_masks_secrets_but_keeps_config():
@@ -75,8 +74,7 @@ def test_redacted_masks_secrets_but_keeps_config():
         source_api_key="dummy-unredacted-aaa",
         hopsworks_api_key="dummy-unredacted-bbb",
         hopsworks_project="demo",
-        mlflow_tracking_uri="http://localhost:5001",
-        mlflow_experiment_name="exp",
+        model_registry_project="demo",
     )
     out = redacted(settings)
     assert "dummy-unredacted-aaa" not in str(out)

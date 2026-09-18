@@ -19,11 +19,14 @@ Hochschule Luzern — HS26.
 
 ## What it predicts
 
-For every contested swiss pairing in an online tournament on
-[play.limitlesstcg.com](https://play.limitlesstcg.com), the system emits
-**P(player 1 wins)** at the moment that round's pairings publish. The match resolves within the
-hour, so the label arrives on its own — a natural label, with no manual annotation anywhere in
-the loop.
+Given two registered decklists and both pilots' results at strictly earlier events, the system
+returns **P(player 1 wins)** for that match. It is served on demand through a UI, and scored
+nightly against every match that resolved since the previous run.
+
+The provider lists a tournament only **after it finishes** (verified: the newest event in the live
+index is a day old), so there is no in-progress feed to predict against in real time. The honest
+architecture is therefore on-demand serving plus nightly scoring — not live in-tournament
+inference. The label still arrives on its own, with no manual annotation anywhere in the loop.
 
 **Why this is hard, and why it is interesting:** strong players pick strong decks, so a naive
 archetype win rate credits the *deck* for the *pilot*. Separating the two is the modelling
@@ -91,8 +94,8 @@ Three decoupled pipelines — they never call each other, only the feature store
 | | Pipeline | Trigger | Reads | Writes |
 |---|---|---|---|---|
 | 1 | **Feature** | GitHub Actions, daily + on-demand backfill | Limitless API | Hopsworks |
-| 2 | **Training** | scheduled / manual | Hopsworks feature view | MLflow registry |
-| 3 | **Inference** | on pairing publication | registry + feature store | predictions / UI |
+| 2 | **Training** | scheduled / manual | Hopsworks feature view | Hopsworks model registry |
+| 3 | **Inference** | on demand (UI) + nightly scoring | registry + feature store | predictions / UI |
 
 Regenerate the diagram after any stack change:
 
@@ -105,7 +108,7 @@ Regenerate the diagram after any stack change:
 | Concern | Choice | Why |
 |---|---|---|
 | Feature store | Hopsworks | point-in-time-correct joins — training and serving read one feature definition, so a player-history feature can never silently include the event being predicted |
-| Tracking & registry | MLflow | aliased model versions: inference loads `models:/…@champion`, so promoting a model moves an alias instead of redeploying |
+| Model registry | Hopsworks | the same hosted service as the feature store, so there is no tracking server to operate; promotion moves the `champion` alias rather than redeploying |
 | Orchestration | GitHub Actions | scheduled pipelines live beside the code, and the runner stays the ingest edge rather than a cloud IP range |
 | Serving | Google Cloud Run | container deploy, scales to zero between events |
 | Storage | Google Cloud Storage | immutable partitioned landing zone for raw payloads, so features can always be rebuilt |
@@ -147,7 +150,7 @@ GitHub Actions secrets for the scheduled pipelines.
 |---|---|
 | `SOURCE_API_BASE_URL` / `SOURCE_API_KEY` | tournament API endpoint and key, if one is issued |
 | `HOPSWORKS_API_KEY` / `HOPSWORKS_PROJECT` | feature store access |
-| `MLFLOW_TRACKING_URI` / `MLFLOW_EXPERIMENT_NAME` | experiment tracking and registry |
+| `WANDB_API_KEY` | experiment tracking (optional; stretch) |
 | `GCP_PROJECT_ID` / `GCS_BUCKET` / `GCP_REGION` | serving and raw-payload storage |
 
 ## Tests

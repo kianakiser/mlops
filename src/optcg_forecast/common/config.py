@@ -50,9 +50,8 @@ class Settings:
     hopsworks_api_key: str
     hopsworks_project: str
 
-    # tracking / registry
-    mlflow_tracking_uri: str
-    mlflow_experiment_name: str
+    # model registry (Hopsworks, same project as the feature store)
+    model_registry_project: str
 
     # cloud
     gcp_project_id: str = ""
@@ -71,8 +70,12 @@ class Settings:
 
     @property
     def model_uri(self) -> str:
-        """The registry URI the inference pipeline resolves at load time."""
-        return f"models:/{self.model_name}@{self.model_alias}"
+        """How the inference pipeline names the model it wants.
+
+        The alias, not a version number: promoting a new model moves the alias in the registry,
+        so serving picks it up with no code change and no redeploy.
+        """
+        return f"{self.model_name}@{self.model_alias}"
 
 
 def load_settings(*, dotenv_path: Path | None = None, require_cloud: bool = False) -> Settings:
@@ -92,8 +95,7 @@ def load_settings(*, dotenv_path: Path | None = None, require_cloud: bool = Fals
         source_api_key=_require("SOURCE_API_KEY"),
         hopsworks_api_key=_require("HOPSWORKS_API_KEY"),
         hopsworks_project=_require("HOPSWORKS_PROJECT"),
-        mlflow_tracking_uri=_optional("MLFLOW_TRACKING_URI", "http://localhost:5001"),
-        mlflow_experiment_name=_optional("MLFLOW_EXPERIMENT_NAME", "optcg_forecast"),
+        model_registry_project=_optional("HOPSWORKS_PROJECT", ""),
         gcp_project_id=_require("GCP_PROJECT_ID") if require_cloud else _optional("GCP_PROJECT_ID"),
         gcp_region=_optional("GCP_REGION", "europe-west6"),
         gcs_bucket=_require("GCS_BUCKET") if require_cloud else _optional("GCS_BUCKET"),

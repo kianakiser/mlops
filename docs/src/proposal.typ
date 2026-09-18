@@ -41,9 +41,14 @@
 probability the seat-1 player wins, from both registered decklists and both pilots' results at
 strictly earlier events. For competitive players and deck-builders.
 
-*Horizon.* Emitted when a round's pairings publish — both 50-card lists registered, no card
-played — and resolved when the platform reports the winner. That reported winner is the label: it
-is not computable from any feature. One match, not a time window.
+*Horizon.* One match. The model is given only what is known before the first card is played — the
+two registered 50-card lists and both pilots' results at strictly earlier events — and predicts
+that match's outcome. It is served on demand through a web UI (a player picks two decks and gets a
+probability), and the same model is scored nightly against every match that resolved since the
+previous run. The provider lists a tournament only once it has finished, so there is no in-progress
+feed to predict against in real time; the honest framing is on-demand serving plus nightly scoring,
+not live in-tournament inference. The reported winner is the label and is not computable from any
+feature.
 
 *Scope.* Online Swiss rounds, predominantly best-of-one, at 32+ entrant events on
 play.limitlesstcg.com; top cut, byes, ties and unresolvable decklists excluded — 28,107 matches as
@@ -104,13 +109,14 @@ must also persist the event date, which only the tournament index holds.
 events a week. It pulls the Limitless API, drops `placing`, `record` and `drop` physically at the
 ingest boundary, persists each event's date from the tournament index — the pairings payload
 carries none, so without it no out-of-time split is possible — lands raw JSON in GCS and writes
-features to Hopsworks. Training reads the feature view, splits by event date, logs to MLflow and
-registers the winner as `champion`. Cloud Run loads `models:/…@champion` and returns a win
-probability for pairings the Actions job posts to it, logging predictions for scoring; serving
-never calls the provider.
+features to Hopsworks. Training reads the feature view, splits by event date, evaluates out of
+time, and registers the winner in the Hopsworks model registry under the alias `champion`. Cloud
+Run loads whatever currently carries that alias and serves win probabilities to the UI, logging
+each prediction so it can be scored once the match resolves; serving never calls the provider.
 
 *Stack.* _Hopsworks_: point-in-time joins, so player history cannot include the event being
-predicted. _MLflow_: promotion moves an alias instead of redeploying. _GitHub Actions_: schedules
+predicted, and one hosted service covers both the feature store and the registry — promotion moves
+an alias rather than redeploying, and there is no tracking server to operate. _GitHub Actions_: schedules
 beside code and CI, and sole holder of the provider client — throttled to the published 50
 requests per 5 minutes, finished events cached write-once. _Cloud Run_: container deploy, scales
 to zero between events. _GCS_: immutable landing zone, so features rebuild without re-fetching.
