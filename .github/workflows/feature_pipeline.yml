@@ -50,9 +50,9 @@ jobs:
           HOPSWORKS_PROJECT: ${{ secrets.HOPSWORKS_PROJECT }}
         run: |
           if [ -n "${{ inputs.backfill_start }}" ]; then
-            uv run python -m mlops_project.features.backfill \
+            uv run python -m optcg_forecast.features.backfill \
               --start "${{ inputs.backfill_start }}" \
               --end "${{ inputs.backfill_end }}"
           else
-            uv run python -m mlops_project.features.run
+            uv run python -m optcg_forecast.features.run
           fi

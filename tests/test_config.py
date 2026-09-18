@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from mlops_project.common.config import ConfigError, Settings, load_settings, redacted
+from optcg_forecast.common.config import ConfigError, Settings, load_settings, redacted
 
 REQUIRED = {
     "SOURCE_API_BASE_URL": "https://api.example.com",

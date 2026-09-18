@@ -1,5 +1,5 @@
 # Multi-stage build: dependencies resolve once, the runtime image stays small.
-# mlops_project is replaced with the real package name once the project topic is fixed.
+# Package: optcg_forecast
 
 FROM python:3.12-slim-bookworm AS builder
 
@@ -42,4 +42,4 @@ USER app
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["sh", "-c", "python -m mlops_project.inference.serve --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "python -m optcg_forecast.inference.serve --host 0.0.0.0 --port ${PORT}"]

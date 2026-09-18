@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Regenerate the FTI architecture diagram with this project's labels.
+# Run after any stack change so README/proposal stay in sync.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+uv run python scripts/make_architecture_diagram.py \
+  --out docs/src/architecture.png \
+  --source-title "Limitless TCG" \
+  --source-subtitle "tournament API" \
+  --feature-sub "ingest · compute · write" \
+  --training-sub "train · evaluate · register" \
+  --inference-sub "load champion · predict" \
+  --ui-sub "match forecast" \
+  --feature-store "Hopsworks" \
+  --model-registry "MLflow" \
+  --feature-trigger "GitHub Actions (hourly) · backfill" \
+  --training-trigger "scheduled / manual" \
+  --inference-trigger "on pairing publication"

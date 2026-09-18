@@ -64,7 +64,7 @@ class Settings:
 
     # the model alias the inference pipeline loads; moving this alias in the registry
     # promotes a new model with no code change and no redeploy
-    model_name: str = "mlops_project"
+    model_name: str = "optcg_forecast"
     model_alias: str = "champion"
 
     _loaded_from: str = field(default="environment", compare=False)
@@ -93,7 +93,7 @@ def load_settings(*, dotenv_path: Path | None = None, require_cloud: bool = Fals
         hopsworks_api_key=_require("HOPSWORKS_API_KEY"),
         hopsworks_project=_require("HOPSWORKS_PROJECT"),
         mlflow_tracking_uri=_optional("MLFLOW_TRACKING_URI", "http://localhost:5001"),
-        mlflow_experiment_name=_optional("MLFLOW_EXPERIMENT_NAME", "mlops_project"),
+        mlflow_experiment_name=_optional("MLFLOW_EXPERIMENT_NAME", "optcg_forecast"),
         gcp_project_id=_require("GCP_PROJECT_ID") if require_cloud else _optional("GCP_PROJECT_ID"),
         gcp_region=_optional("GCP_REGION", "europe-west6"),
         gcs_bucket=_require("GCS_BUCKET") if require_cloud else _optional("GCS_BUCKET"),
