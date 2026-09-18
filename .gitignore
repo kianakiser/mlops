@@ -1,0 +1,101 @@
+# ---- Secrets (course rule: no secrets in the repo OR ITS HISTORY) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service-account*.json
+gcp-key*.json
+.hopsworks/
+*api_key*
+*apikey*
+
+# ---- Data (course rule: no data in git) ----
+data/
+raw/
+interim/
+processed/
+*.parquet
+*.csv
+*.tsv
+*.feather
+*.duckdb
+*.sqlite
+*.sqlite3
+*.db
+s3_data/
+
+# ---- Models & experiment tracking (course rule: no model files or mlruns/) ----
+mlruns/
+mlartifacts/
+models/
+artifacts/
+*.pkl
+*.joblib
+*.onnx
+*.h5
+*.pt
+*.pth
+*.ckpt
+wandb/
+.mlflow/
+mlflow_metadata/
+state/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ---- Testing / tooling caches ----
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.hypothesis/
+
+# ---- Notebooks ----
+.ipynb_checkpoints/
+notebooks/**/*.parquet
+notebooks/**/*.csv
+
+# ---- OS / editor ----
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Video (course rule: no video files in the repo) ----
+*.mp4
+*.mov
+*.avi
+*.mkv
