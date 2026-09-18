@@ -90,7 +90,7 @@ Three decoupled pipelines — they never call each other, only the feature store
 
 | | Pipeline | Trigger | Reads | Writes |
 |---|---|---|---|---|
-| 1 | **Feature** | GitHub Actions, hourly + on-demand backfill | Limitless API | Hopsworks |
+| 1 | **Feature** | GitHub Actions, daily + on-demand backfill | Limitless API | Hopsworks |
 | 2 | **Training** | scheduled / manual | Hopsworks feature view | MLflow registry |
 | 3 | **Inference** | on pairing publication | registry + feature store | predictions / UI |
 

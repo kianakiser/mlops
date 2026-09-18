@@ -13,6 +13,6 @@ uv run python scripts/make_architecture_diagram.py \
   --ui-sub "match forecast" \
   --feature-store "Hopsworks" \
   --model-registry "MLflow" \
-  --feature-trigger "GitHub Actions (hourly) · backfill" \
+  --feature-trigger "GitHub Actions (daily) · backfill" \
   --training-trigger "scheduled / manual" \
   --inference-trigger "on pairing publication"
