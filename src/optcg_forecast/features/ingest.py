@@ -12,6 +12,12 @@ So the outcome fields are dropped **here**, at the boundary, before anything dow
 them. Filtering them out at training time would leave the loaded footgun in place for every future
 caller.
 
+A third hazard is structural rather than statistical: the event payload does **not** carry the
+event date. ``/tournaments/{id}/standings`` and ``/pairings`` return only the rows; the date lives
+in the ``/tournaments`` listing. Since every split in this project is out of time, a row without a
+date is unusable — so :class:`Entrant` and :class:`Match` both require ``event_date`` at
+construction. You cannot accidentally build a dateless row and discover it at training time.
+
 There is a second, subtler trap. ``placing`` is null for players who dropped out mid-event, and
 dropping out is itself an outcome — droppers win far fewer matches than finishers. The obvious
 ``WHERE placing IS NOT NULL`` therefore conditions the population on *finishing*, silently deleting
@@ -23,10 +29,20 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any
 
 # Outcomes of the event being predicted. Never features.
 LEAKY_STANDING_FIELDS = frozenset({"placing", "record", "drop"})
+
+# Not an outcome field, but an outcome *proxy*. Swiss pairs by record from round 2 onward, so a
+# low table number in round 3 means "currently winning". Keeping it on :class:`Match` is useful
+# for identifying a row; using it as a feature leaks the in-progress standing. ``round`` itself is
+# safe — it is known before the round is played.
+WITHIN_EVENT_OUTCOME_PROXIES = frozenset({"table"})
+
+# Everything that must never appear in a feature row.
+FORBIDDEN_FEATURE_FIELDS = LEAKY_STANDING_FIELDS | WITHIN_EVENT_OUTCOME_PROXIES
 
 # Phase 1 is swiss; later phases are top cut, where pairing is by standing rather
 # than by the swiss algorithm and the population is already outcome-selected.
@@ -47,6 +63,7 @@ class Entrant:
     """
 
     event_id: str
+    event_date: date
     player: str
     leader_id: str | None
     country: str | None
@@ -63,6 +80,7 @@ class Match:
     """One decided swiss pairing. ``winner`` is the label."""
 
     event_id: str
+    event_date: date
     round: int
     table: int
     player1: str
@@ -109,9 +127,15 @@ def _leader_id(standing: dict[str, Any]) -> str | None:
 
 
 def entrant_rows(
-    event_id: str, payload: dict[str, Any], stats: IngestStats | None = None
+    event_id: str,
+    event_date: date,
+    payload: dict[str, Any],
+    stats: IngestStats | None = None,
 ) -> Iterator[Entrant]:
     """Yield one :class:`Entrant` per standings row, with outcome fields stripped.
+
+    ``event_date`` must come from the ``/tournaments`` listing — it is absent from the standings
+    payload, and every split in this project is out of time.
 
     Dropped players are **kept**. Excluding them would condition the population on finishing
     the event, which is an outcome.
@@ -141,6 +165,7 @@ def entrant_rows(
 
         yield Entrant(
             event_id=event_id,
+            event_date=event_date,
             player=str(player),
             leader_id=_leader_id(standing),
             country=standing.get("country"),
@@ -150,9 +175,15 @@ def entrant_rows(
 
 
 def match_rows(
-    event_id: str, payload: dict[str, Any], stats: IngestStats | None = None
+    event_id: str,
+    event_date: date,
+    payload: dict[str, Any],
+    stats: IngestStats | None = None,
 ) -> Iterator[Match]:
-    """Yield decided swiss matches. Byes, ties and top-cut pairings are excluded."""
+    """Yield decided swiss matches. Byes, ties and top-cut pairings are excluded.
+
+    ``event_date`` must come from the ``/tournaments`` listing; see :func:`entrant_rows`.
+    """
     stats = stats if stats is not None else IngestStats()
     pairings = payload.get("pairings")
     if not isinstance(pairings, list):
@@ -175,13 +206,16 @@ def match_rows(
             stats.skipped_no_winner += 1  # unfinished, or a tie
             continue
         if winner not in (p1, p2):
-            # Defensive: a winner naming neither seat means the row cannot be trusted.
+            # Not merely defensive: the API uses the integer -1 as a sentinel on some rows
+            # (14 of them across the current backfill). A naive string comparison against
+            # player1 would silently label every one of those as a player-2 win.
             stats.skipped_winner_not_in_pairing += 1
             continue
 
         stats.matches_kept += 1
         yield Match(
             event_id=event_id,
+            event_date=event_date,
             round=int(pairing.get("round", 0)),
             table=int(pairing.get("table", 0)),
             player1=str(p1),
@@ -191,17 +225,17 @@ def match_rows(
 
 
 def assert_no_leakage(rows: list[dict[str, Any]]) -> None:
-    """Fail loudly if any outcome field survived into feature rows.
+    """Fail loudly if any outcome field or outcome proxy survived into feature rows.
 
     Call this at the end of the feature pipeline, before writing to the feature store. It is
     cheap, and it turns a silent modelling disaster into a failed pipeline run.
     """
     offenders: dict[str, int] = {}
     for row in rows:
-        for key in LEAKY_STANDING_FIELDS & row.keys():
+        for key in FORBIDDEN_FEATURE_FIELDS & row.keys():
             offenders[key] = offenders.get(key, 0) + 1
     if offenders:
         raise IngestError(
-            "post-hoc outcome fields reached the feature rows: "
+            "outcome fields or outcome proxies reached the feature rows: "
             + ", ".join(f"{k} in {n} row(s)" for k, n in sorted(offenders.items()))
         )
