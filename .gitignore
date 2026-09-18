@@ -12,10 +12,12 @@ gcp-key*.json
 *apikey*
 
 # ---- Data (course rule: no data in git) ----
-data/
-raw/
-interim/
-processed/
+# Anchored with a leading slash: an unanchored "data/" matches at ANY depth and would
+# silently ignore src/<pkg>/common/data/, which is a very unpleasant way to lose work.
+/data/
+/raw/
+/interim/
+/processed/
 *.parquet
 *.csv
 *.tsv
@@ -24,13 +26,13 @@ processed/
 *.sqlite
 *.sqlite3
 *.db
-s3_data/
+/s3_data/
 
 # ---- Models & experiment tracking (course rule: no model files or mlruns/) ----
-mlruns/
-mlartifacts/
-models/
-artifacts/
+/mlruns/
+/mlartifacts/
+/models/
+/artifacts/
 *.pkl
 *.joblib
 *.onnx
@@ -38,10 +40,10 @@ artifacts/
 *.pt
 *.pth
 *.ckpt
-wandb/
+/wandb/
 .mlflow/
-mlflow_metadata/
-state/
+/mlflow_metadata/
+/state/
 
 # ---- Python ----
 __pycache__/
@@ -49,8 +51,8 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-dist/
+/build/
+/dist/
 *.egg-info/
 .eggs/
 .installed.cfg
@@ -92,7 +94,7 @@ desktop.ini
 
 # ---- Logs ----
 *.log
-logs/
+/logs/
 
 # ---- Video (course rule: no video files in the repo) ----
 *.mp4

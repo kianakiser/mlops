@@ -6,7 +6,10 @@ import pytest
 
 from optcg_forecast.common.config import ConfigError, Settings, load_settings, redacted
 
-REQUIRED = {
+# Nothing is required by default any more: the ingest half of the feature pipeline talks to a
+# keyless public API, so demanding credentials would make a scheduled run fail for no reason.
+# Each pipeline opts in to what it actually needs.
+OPTIONAL_ENV = {
     "SOURCE_API_BASE_URL": "https://api.example.com",
     "SOURCE_API_KEY": "dummy-value-for-tests",
     "HOPSWORKS_API_KEY": "dummy-value-for-tests",
@@ -17,9 +20,8 @@ REQUIRED = {
 @pytest.fixture
 def clean_env(monkeypatch, tmp_path):
     for key in [
-        *REQUIRED,
-        "MLFLOW_TRACKING_URI",
-        "MLFLOW_EXPERIMENT_NAME",
+        *OPTIONAL_ENV,
+        "WANDB_API_KEY",
         "GCP_PROJECT_ID",
         "GCP_REGION",
         "GCS_BUCKET",
@@ -29,26 +31,37 @@ def clean_env(monkeypatch, tmp_path):
     return tmp_path / "absent.env"
 
 
-def test_loads_when_all_required_present(clean_env, monkeypatch):
-    for key, value in REQUIRED.items():
+def test_loads_with_a_completely_empty_environment(clean_env):
+    """A scheduled ingest run must work with no secrets at all."""
+    settings = load_settings(dotenv_path=clean_env)
+    assert settings.source_api_base_url == "https://play.limitlesstcg.com/api"
+    assert settings.source_api_key == ""
+    assert settings.gcp_region == "europe-west6"
+
+
+def test_environment_overrides_the_defaults(clean_env, monkeypatch):
+    for key, value in OPTIONAL_ENV.items():
         monkeypatch.setenv(key, value)
     settings = load_settings(dotenv_path=clean_env)
     assert settings.hopsworks_project == "demo"
-    assert settings.gcp_region == "europe-west6"  # default applied
+    assert settings.source_api_base_url == "https://api.example.com"
 
 
-@pytest.mark.parametrize("missing", sorted(REQUIRED))
-def test_missing_required_variable_names_itself(clean_env, monkeypatch, missing):
-    for key, value in REQUIRED.items():
+@pytest.mark.parametrize("missing", ["HOPSWORKS_API_KEY", "HOPSWORKS_PROJECT"])
+def test_feature_store_settings_are_demanded_only_when_asked_for(clean_env, monkeypatch, missing):
+    for key, value in OPTIONAL_ENV.items():
         if key != missing:
             monkeypatch.setenv(key, value)
+
+    load_settings(dotenv_path=clean_env)  # fine without it
+
     with pytest.raises(ConfigError) as excinfo:
-        load_settings(dotenv_path=clean_env)
+        load_settings(dotenv_path=clean_env, require_feature_store=True)
     assert missing in str(excinfo.value)
 
 
 def test_cloud_settings_optional_unless_requested(clean_env, monkeypatch):
-    for key, value in REQUIRED.items():
+    for key, value in OPTIONAL_ENV.items():
         monkeypatch.setenv(key, value)
     load_settings(dotenv_path=clean_env)  # fine without cloud vars
     with pytest.raises(ConfigError):

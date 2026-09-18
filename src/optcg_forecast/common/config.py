@@ -42,16 +42,19 @@ def _optional(name: str, default: str = "") -> str:
 class Settings:
     """Resolved configuration for all three pipelines."""
 
-    # data source
+    # Data source. The Limitless tournament API is KEYLESS for the endpoints this project
+    # uses, so the key is optional: it exists only because the provider issues keys for
+    # higher rate limits. Requiring it would block the pipeline for no reason.
     source_api_base_url: str
-    source_api_key: str
+    source_api_key: str = ""
 
-    # feature store
-    hopsworks_api_key: str
-    hopsworks_project: str
+    # Feature store. Optional until the write path exists (MS2); pass
+    # require_feature_store=True from the pipelines that actually need it.
+    hopsworks_api_key: str = ""
+    hopsworks_project: str = ""
 
     # model registry (Hopsworks, same project as the feature store)
-    model_registry_project: str
+    model_registry_project: str = ""
 
     # cloud
     gcp_project_id: str = ""
@@ -78,23 +81,41 @@ class Settings:
         return f"{self.model_name}@{self.model_alias}"
 
 
-def load_settings(*, dotenv_path: Path | None = None, require_cloud: bool = False) -> Settings:
+def load_settings(
+    *,
+    dotenv_path: Path | None = None,
+    require_cloud: bool = False,
+    require_feature_store: bool = False,
+) -> Settings:
     """Read settings from the environment, loading `.env` first if present.
+
+    Nothing is required by default. That is deliberate: the ingest half of the feature
+    pipeline talks to a keyless public API and needs no credentials at all, so demanding
+    any would make a scheduled run fail for no reason. Each pipeline asks for exactly
+    what it needs via the flags.
 
     Args:
         dotenv_path: explicit `.env` to load; defaults to the repository root.
-        require_cloud: also demand the GCP settings. Off by default so the feature and
-            training pipelines can run locally without cloud credentials.
+        require_cloud: demand the GCP settings (serving and the raw landing zone).
+        require_feature_store: demand the Hopsworks settings (writing or reading features).
     """
     path = dotenv_path or (REPO_ROOT / ".env")
     if path.exists():
         load_dotenv(path, override=False)
 
     settings = Settings(
-        source_api_base_url=_require("SOURCE_API_BASE_URL"),
-        source_api_key=_require("SOURCE_API_KEY"),
-        hopsworks_api_key=_require("HOPSWORKS_API_KEY"),
-        hopsworks_project=_require("HOPSWORKS_PROJECT"),
+        source_api_base_url=_optional("SOURCE_API_BASE_URL", "https://play.limitlesstcg.com/api"),
+        source_api_key=_optional("SOURCE_API_KEY"),
+        hopsworks_api_key=(
+            _require("HOPSWORKS_API_KEY")
+            if require_feature_store
+            else _optional("HOPSWORKS_API_KEY")
+        ),
+        hopsworks_project=(
+            _require("HOPSWORKS_PROJECT")
+            if require_feature_store
+            else _optional("HOPSWORKS_PROJECT")
+        ),
         model_registry_project=_optional("HOPSWORKS_PROJECT", ""),
         gcp_project_id=_require("GCP_PROJECT_ID") if require_cloud else _optional("GCP_PROJECT_ID"),
         gcp_region=_optional("GCP_REGION", "europe-west6"),

@@ -23,12 +23,13 @@ on:
   workflow_dispatch:
     inputs:
       backfill_start:
-        description: "Backfill start (YYYY-MM-DD). Leave empty for a normal incremental run."
+        description: "Any value here widens the index scan to backfill history."
         required: false
         type: string
-      backfill_end:
-        description: "Backfill end (YYYY-MM-DD)."
+      min_players:
+        description: "Minimum event size to ingest (default 32; lowering it reduces single-organiser concentration)."
         required: false
+        default: "32"
         type: string
 
 concurrency:
@@ -51,15 +52,14 @@ jobs:
         run: uv sync --locked
 
       - name: Run feature pipeline
-        env:
-          SOURCE_API_KEY: ${{ secrets.SOURCE_API_KEY }}
-          HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
-          HOPSWORKS_PROJECT: ${{ secrets.HOPSWORKS_PROJECT }}
+        # No secrets here on purpose: the tournament endpoints this stage uses are keyless,
+        # so a scheduled run needs no credentials at all. Requiring one would make the job
+        # fail for no reason. HOPSWORKS_* arrive when the feature-store write lands (MS2).
         run: |
           if [ -n "${{ inputs.backfill_start }}" ]; then
-            uv run python -m optcg_forecast.features.backfill \
-              --start "${{ inputs.backfill_start }}" \
-              --end "${{ inputs.backfill_end }}"
+            uv run python -m optcg_forecast.features.run \
+              --limit 400 --min-players "${{ inputs.min_players || 32 }}"
           else
-            uv run python -m optcg_forecast.features.run
+            uv run python -m optcg_forecast.features.run \
+              --min-players "${{ inputs.min_players || 32 }}"
           fi
