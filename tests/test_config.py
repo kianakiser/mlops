@@ -74,7 +74,6 @@ def test_model_uri_uses_alias_not_version():
         source_api_key="k",
         hopsworks_api_key="k",
         hopsworks_project="p",
-        model_registry_project="p",
         model_name="demo",
         model_alias="champion",
     )
@@ -87,7 +86,6 @@ def test_redacted_masks_secrets_but_keeps_config():
         source_api_key="dummy-unredacted-aaa",
         hopsworks_api_key="dummy-unredacted-bbb",
         hopsworks_project="demo",
-        model_registry_project="demo",
     )
     out = redacted(settings)
     assert "dummy-unredacted-aaa" not in str(out)

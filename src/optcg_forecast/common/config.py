@@ -11,7 +11,7 @@ confusing auth error deep inside a client library.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -53,9 +53,6 @@ class Settings:
     hopsworks_api_key: str = ""
     hopsworks_project: str = ""
 
-    # model registry (Hopsworks, same project as the feature store)
-    model_registry_project: str = ""
-
     # cloud
     gcp_project_id: str = ""
     gcp_region: str = "europe-west6"
@@ -68,8 +65,6 @@ class Settings:
     # promotes a new model with no code change and no redeploy
     model_name: str = "optcg_forecast"
     model_alias: str = "champion"
-
-    _loaded_from: str = field(default="environment", compare=False)
 
     @property
     def model_uri(self) -> str:
@@ -116,12 +111,10 @@ def load_settings(
             if require_feature_store
             else _optional("HOPSWORKS_PROJECT")
         ),
-        model_registry_project=_optional("HOPSWORKS_PROJECT", ""),
         gcp_project_id=_require("GCP_PROJECT_ID") if require_cloud else _optional("GCP_PROJECT_ID"),
         gcp_region=_optional("GCP_REGION", "europe-west6"),
         gcs_bucket=_require("GCS_BUCKET") if require_cloud else _optional("GCS_BUCKET"),
         log_level=_optional("LOG_LEVEL", "INFO"),
-        _loaded_from=str(path) if path.exists() else "environment",
     )
     return settings
 

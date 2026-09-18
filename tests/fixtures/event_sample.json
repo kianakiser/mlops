@@ -1,0 +1,1300 @@
+{
+ "standings": [
+  {
+   "name": "player_40fe5b29",
+   "country": "BG",
+   "player": "player_0139690a",
+   "decklist": null,
+   "deck": {},
+   "placing": 1,
+   "record": {
+    "wins": 5,
+    "losses": 1,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_e4f37db7",
+   "country": "IT",
+   "player": "player_e4f37db7",
+   "decklist": null,
+   "deck": {},
+   "placing": 2,
+   "record": {
+    "wins": 5,
+    "losses": 1,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_433fab06",
+   "country": "IT",
+   "player": "player_e7ca7e1b",
+   "decklist": null,
+   "deck": {},
+   "placing": 3,
+   "record": {
+    "wins": 5,
+    "losses": 1,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_550f838c",
+   "country": "IT",
+   "player": "player_8d50ced0",
+   "decklist": null,
+   "deck": {},
+   "placing": 4,
+   "record": {
+    "wins": 5,
+    "losses": 1,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_9ea036ee",
+   "country": "IT",
+   "player": "player_33f285b2",
+   "decklist": null,
+   "deck": {},
+   "placing": 5,
+   "record": {
+    "wins": 5,
+    "losses": 1,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_73f1eab2",
+   "country": "IT",
+   "player": "player_2b6cbcf4",
+   "decklist": null,
+   "deck": {},
+   "placing": 6,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_1c35fd56",
+   "country": "IT",
+   "player": "player_01468b8a",
+   "decklist": null,
+   "deck": {},
+   "placing": 7,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_1d789f9c",
+   "country": "IT",
+   "player": "player_16bbc143",
+   "decklist": null,
+   "deck": {},
+   "placing": 8,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_741de64e",
+   "country": "IT",
+   "player": "player_e51c992d",
+   "decklist": null,
+   "deck": {},
+   "placing": 9,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_7be11710",
+   "country": "IT",
+   "player": "player_7d04b046",
+   "decklist": null,
+   "deck": {},
+   "placing": 10,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_2663fc85",
+   "country": "IT",
+   "player": "player_cba704cb",
+   "decklist": null,
+   "deck": {},
+   "placing": 11,
+   "record": {
+    "wins": 4,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_f3f4fa74",
+   "country": "IT",
+   "player": "player_77d9d2f2",
+   "decklist": null,
+   "deck": {},
+   "placing": 12,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_d1b5c2af",
+   "country": "IT",
+   "player": "player_8e780a58",
+   "decklist": null,
+   "deck": {},
+   "placing": 13,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_bef397bf",
+   "country": "IT",
+   "player": "player_8977c8cb",
+   "decklist": null,
+   "deck": {},
+   "placing": 14,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_50b9677f",
+   "country": "IT",
+   "player": "player_fd92b04a",
+   "decklist": null,
+   "deck": {},
+   "placing": 15,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_f714b1c3",
+   "country": "IT",
+   "player": "player_d7ead1cc",
+   "decklist": null,
+   "deck": {},
+   "placing": 16,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_e2b77ffd",
+   "country": "IT",
+   "player": "player_a358c114",
+   "decklist": null,
+   "deck": {},
+   "placing": 17,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_eb324cfb",
+   "country": "IT",
+   "player": "player_ffc46619",
+   "decklist": null,
+   "deck": {},
+   "placing": 18,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_7edaf344",
+   "country": "IT",
+   "player": "player_49499879",
+   "decklist": null,
+   "deck": {},
+   "placing": 19,
+   "record": {
+    "wins": 3,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_36f4c41b",
+   "country": "IT",
+   "player": "player_c9f0a9cd",
+   "decklist": null,
+   "deck": {},
+   "placing": 20,
+   "record": {
+    "wins": 3,
+    "losses": 2,
+    "ties": 1
+   },
+   "drop": null
+  },
+  {
+   "name": "player_807e305b",
+   "country": null,
+   "player": "player_735eea24",
+   "decklist": null,
+   "deck": {},
+   "placing": 21,
+   "record": {
+    "wins": 2,
+    "losses": 4,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_3c11b910",
+   "country": "IT",
+   "player": "player_e38f897c",
+   "decklist": null,
+   "deck": {},
+   "placing": 22,
+   "record": {
+    "wins": 2,
+    "losses": 3,
+    "ties": 1
+   },
+   "drop": null
+  },
+  {
+   "name": "player_49a1ce4c",
+   "country": null,
+   "player": "player_0778d4b0",
+   "decklist": null,
+   "deck": {},
+   "placing": 23,
+   "record": {
+    "wins": 2,
+    "losses": 4,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_26ad02e2",
+   "country": "IT",
+   "player": "player_be837dfa",
+   "decklist": null,
+   "deck": {},
+   "placing": 24,
+   "record": {
+    "wins": 2,
+    "losses": 3,
+    "ties": 0
+   },
+   "drop": 5
+  },
+  {
+   "name": "player_73c69e47",
+   "country": "IT",
+   "player": "player_dfac5199",
+   "decklist": null,
+   "deck": {},
+   "placing": 25,
+   "record": {
+    "wins": 2,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 4
+  },
+  {
+   "name": "player_46e89bd2",
+   "country": "IT",
+   "player": "player_97341f27",
+   "decklist": null,
+   "deck": {},
+   "placing": 26,
+   "record": {
+    "wins": 1,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 3
+  },
+  {
+   "name": "player_24810485",
+   "country": "IT",
+   "player": "player_ba4bad62",
+   "decklist": null,
+   "deck": {},
+   "placing": 27,
+   "record": {
+    "wins": 1,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 3
+  },
+  {
+   "name": "player_ddf53af4",
+   "country": "IT",
+   "player": "player_9538ffff",
+   "decklist": null,
+   "deck": {},
+   "placing": 28,
+   "record": {
+    "wins": 1,
+    "losses": 4,
+    "ties": 1
+   },
+   "drop": null
+  },
+  {
+   "name": "player_f1c0faa6",
+   "country": "IT",
+   "player": "player_d5f938f0",
+   "decklist": null,
+   "deck": {},
+   "placing": 29,
+   "record": {
+    "wins": 1,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 3
+  },
+  {
+   "name": "player_0b51272d",
+   "country": "IT",
+   "player": "player_8bd963ed",
+   "decklist": null,
+   "deck": {},
+   "placing": 30,
+   "record": {
+    "wins": 1,
+    "losses": 5,
+    "ties": 0
+   },
+   "drop": null
+  },
+  {
+   "name": "player_2d1a44dd",
+   "country": "IT",
+   "player": "player_a084a868",
+   "decklist": null,
+   "deck": {},
+   "placing": 31,
+   "record": {
+    "wins": 1,
+    "losses": 3,
+    "ties": 2
+   },
+   "drop": null
+  },
+  {
+   "name": "player_22737eae",
+   "country": "IT",
+   "player": "player_52cf9995",
+   "decklist": null,
+   "deck": {},
+   "placing": 32,
+   "record": {
+    "wins": 1,
+    "losses": 3,
+    "ties": 2
+   },
+   "drop": null
+  },
+  {
+   "name": "player_2b66715b",
+   "country": "IT",
+   "player": "player_1d123a02",
+   "decklist": null,
+   "deck": {},
+   "placing": 33,
+   "record": {
+    "wins": 0,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 2
+  },
+  {
+   "name": "player_aa4c1847",
+   "country": "IT",
+   "player": "player_664ece6a",
+   "decklist": null,
+   "deck": {},
+   "placing": 34,
+   "record": {
+    "wins": 0,
+    "losses": 2,
+    "ties": 0
+   },
+   "drop": 2
+  },
+  {
+   "name": "player_c4c90834",
+   "country": "IT",
+   "player": "player_2356fe75",
+   "decklist": null,
+   "deck": {},
+   "placing": 35,
+   "record": {
+    "wins": 0,
+    "losses": 3,
+    "ties": 3
+   },
+   "drop": null
+  },
+  {
+   "name": "player_d543225f",
+   "country": "IT",
+   "player": "player_7722aba4",
+   "decklist": null,
+   "deck": {},
+   "placing": 36,
+   "record": {
+    "wins": 0,
+    "losses": 4,
+    "ties": 2
+   },
+   "drop": null
+  }
+ ],
+ "pairings": [
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_7d04b046",
+   "player1": "player_7d04b046",
+   "player2": "player_fd92b04a"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_0778d4b0",
+   "player1": "player_0778d4b0",
+   "player2": "player_664ece6a"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_735eea24",
+   "player1": "player_16bbc143",
+   "player2": "player_735eea24"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_01468b8a",
+   "player1": "player_1d123a02",
+   "player2": "player_01468b8a"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_77d9d2f2",
+   "player1": "player_49499879",
+   "player2": "player_77d9d2f2"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_9538ffff",
+   "player1": "player_9538ffff",
+   "player2": "player_8bd963ed"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_e38f897c",
+   "player1": "player_e38f897c",
+   "player2": "player_cba704cb"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_2b6cbcf4",
+   "player1": "player_c9f0a9cd",
+   "player2": "player_2b6cbcf4"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_d5f938f0",
+   "player1": "player_d5f938f0",
+   "player2": "player_ffc46619"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_e7ca7e1b",
+   "player1": "player_d7ead1cc",
+   "player2": "player_e7ca7e1b"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 58,
+   "winner": "player_8e780a58",
+   "player1": "player_97341f27",
+   "player2": "player_8e780a58"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_be837dfa",
+   "player1": "player_be837dfa",
+   "player2": "player_52cf9995"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 60,
+   "winner": "player_e51c992d",
+   "player1": "player_e51c992d",
+   "player2": "player_2356fe75"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 61,
+   "winner": "player_8977c8cb",
+   "player1": "player_8977c8cb",
+   "player2": "player_e4f37db7"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 62,
+   "winner": "player_0139690a",
+   "player1": "player_a358c114",
+   "player2": "player_0139690a"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 63,
+   "winner": "player_8d50ced0",
+   "player1": "player_ba4bad62",
+   "player2": "player_8d50ced0"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 64,
+   "winner": "player_dfac5199",
+   "player1": "player_dfac5199",
+   "player2": "player_a084a868"
+  },
+  {
+   "round": 1,
+   "phase": 1,
+   "table": 65,
+   "winner": "player_33f285b2",
+   "player1": "player_7722aba4",
+   "player2": "player_33f285b2"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_e7ca7e1b",
+   "player1": "player_735eea24",
+   "player2": "player_e7ca7e1b"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_8d50ced0",
+   "player1": "player_8d50ced0",
+   "player2": "player_9538ffff"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_33f285b2",
+   "player1": "player_e38f897c",
+   "player2": "player_33f285b2"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_0139690a",
+   "player1": "player_0139690a",
+   "player2": "player_01468b8a"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_8e780a58",
+   "player1": "player_d5f938f0",
+   "player2": "player_8e780a58"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_0778d4b0",
+   "player1": "player_dfac5199",
+   "player2": "player_0778d4b0"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_8977c8cb",
+   "player1": "player_8977c8cb",
+   "player2": "player_be837dfa"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_77d9d2f2",
+   "player1": "player_77d9d2f2",
+   "player2": "player_7d04b046"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_e51c992d",
+   "player1": "player_2b6cbcf4",
+   "player2": "player_e51c992d"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_16bbc143",
+   "player1": "player_1d123a02",
+   "player2": "player_16bbc143"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 58,
+   "winner": "player_e4f37db7",
+   "player1": "player_664ece6a",
+   "player2": "player_e4f37db7"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_97341f27",
+   "player1": "player_c9f0a9cd",
+   "player2": "player_97341f27"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 60,
+   "winner": "player_ffc46619",
+   "player1": "player_ffc46619",
+   "player2": "player_7722aba4"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 61,
+   "winner": "player_ba4bad62",
+   "player1": "player_a084a868",
+   "player2": "player_ba4bad62"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 62,
+   "winner": "player_a358c114",
+   "player1": "player_a358c114",
+   "player2": "player_2356fe75"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 63,
+   "winner": "player_d7ead1cc",
+   "player1": "player_d7ead1cc",
+   "player2": "player_52cf9995"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 64,
+   "winner": "player_fd92b04a",
+   "player1": "player_8bd963ed",
+   "player2": "player_fd92b04a"
+  },
+  {
+   "round": 2,
+   "phase": 1,
+   "table": 65,
+   "winner": "player_cba704cb",
+   "player1": "player_cba704cb",
+   "player2": "player_49499879"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_8e780a58",
+   "player1": "player_8e780a58",
+   "player2": "player_8977c8cb"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_0139690a",
+   "player1": "player_33f285b2",
+   "player2": "player_0139690a"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_8d50ced0",
+   "player1": "player_0778d4b0",
+   "player2": "player_8d50ced0"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_77d9d2f2",
+   "player1": "player_77d9d2f2",
+   "player2": "player_e51c992d"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_e4f37db7",
+   "player1": "player_e7ca7e1b",
+   "player2": "player_e4f37db7"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_16bbc143",
+   "player1": "player_cba704cb",
+   "player2": "player_16bbc143"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_dfac5199",
+   "player1": "player_dfac5199",
+   "player2": "player_a358c114"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_01468b8a",
+   "player1": "player_97341f27",
+   "player2": "player_01468b8a"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_ffc46619",
+   "player1": "player_ffc46619",
+   "player2": "player_735eea24"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_be837dfa",
+   "player1": "player_be837dfa",
+   "player2": "player_d5f938f0"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 58,
+   "winner": "player_2b6cbcf4",
+   "player1": "player_7d04b046",
+   "player2": "player_2b6cbcf4"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_fd92b04a",
+   "player1": "player_fd92b04a",
+   "player2": "player_9538ffff"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 60,
+   "winner": "player_d7ead1cc",
+   "player1": "player_ba4bad62",
+   "player2": "player_d7ead1cc"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 61,
+   "winner": "player_e38f897c",
+   "player1": "player_e38f897c",
+   "player2": "player_52cf9995"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 62,
+   "winner": 0,
+   "player1": "player_c9f0a9cd",
+   "player2": "player_2356fe75"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 63,
+   "winner": "player_a084a868",
+   "player1": "player_7722aba4",
+   "player2": "player_a084a868"
+  },
+  {
+   "round": 3,
+   "phase": 1,
+   "table": 64,
+   "winner": "player_8bd963ed",
+   "player1": "player_8bd963ed",
+   "player2": "player_49499879"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_8d50ced0",
+   "player1": "player_8d50ced0",
+   "player2": "player_77d9d2f2"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_0139690a",
+   "player1": "player_0139690a",
+   "player2": "player_8e780a58"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_fd92b04a",
+   "player1": "player_ffc46619",
+   "player2": "player_fd92b04a"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_e4f37db7",
+   "player1": "player_01468b8a",
+   "player2": "player_e4f37db7"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_e7ca7e1b",
+   "player1": "player_e38f897c",
+   "player2": "player_e7ca7e1b"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_16bbc143",
+   "player1": "player_16bbc143",
+   "player2": "player_be837dfa"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_d7ead1cc",
+   "player1": "player_0778d4b0",
+   "player2": "player_d7ead1cc"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_2b6cbcf4",
+   "player1": "player_2b6cbcf4",
+   "player2": "player_dfac5199"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_e51c992d",
+   "player1": "player_e51c992d",
+   "player2": "player_8977c8cb"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_33f285b2",
+   "player1": "player_33f285b2",
+   "player2": "player_735eea24"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 58,
+   "winner": "player_a358c114",
+   "player1": "player_9538ffff",
+   "player2": "player_a358c114"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_cba704cb",
+   "player1": "player_cba704cb",
+   "player2": "player_8bd963ed"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 60,
+   "winner": "player_7d04b046",
+   "player1": "player_a084a868",
+   "player2": "player_7d04b046"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 61,
+   "winner": "player_49499879",
+   "player1": "player_2356fe75",
+   "player2": "player_49499879"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 62,
+   "winner": 0,
+   "player1": "player_7722aba4",
+   "player2": "player_52cf9995"
+  },
+  {
+   "round": 4,
+   "phase": 1,
+   "table": 63,
+   "winner": "player_c9f0a9cd",
+   "player1": "player_c9f0a9cd"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_8d50ced0",
+   "player1": "player_8d50ced0",
+   "player2": "player_0139690a"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_2b6cbcf4",
+   "player1": "player_77d9d2f2",
+   "player2": "player_2b6cbcf4"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_16bbc143",
+   "player1": "player_16bbc143",
+   "player2": "player_e51c992d"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_e7ca7e1b",
+   "player1": "player_e7ca7e1b",
+   "player2": "player_fd92b04a"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_e4f37db7",
+   "player1": "player_e4f37db7",
+   "player2": "player_8e780a58"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_33f285b2",
+   "player1": "player_d7ead1cc",
+   "player2": "player_33f285b2"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_7d04b046",
+   "player1": "player_8977c8cb",
+   "player2": "player_7d04b046"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_cba704cb",
+   "player1": "player_cba704cb",
+   "player2": "player_0778d4b0"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_01468b8a",
+   "player1": "player_a358c114",
+   "player2": "player_01468b8a"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_ffc46619",
+   "player1": "player_ffc46619",
+   "player2": "player_be837dfa"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 58,
+   "winner": 0,
+   "player1": "player_e38f897c",
+   "player2": "player_a084a868"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_735eea24",
+   "player1": "player_8bd963ed",
+   "player2": "player_735eea24"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 60,
+   "winner": "player_49499879",
+   "player1": "player_9538ffff",
+   "player2": "player_49499879"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 61,
+   "winner": "player_c9f0a9cd",
+   "player1": "player_c9f0a9cd",
+   "player2": "player_7722aba4"
+  },
+  {
+   "round": 5,
+   "phase": 1,
+   "table": 62,
+   "winner": 0,
+   "player1": "player_52cf9995",
+   "player2": "player_2356fe75"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 48,
+   "winner": "player_33f285b2",
+   "player1": "player_8d50ced0",
+   "player2": "player_33f285b2"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 49,
+   "winner": "player_e7ca7e1b",
+   "player1": "player_e7ca7e1b",
+   "player2": "player_16bbc143"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 50,
+   "winner": "player_0139690a",
+   "player1": "player_2b6cbcf4",
+   "player2": "player_0139690a"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 51,
+   "winner": "player_e4f37db7",
+   "player1": "player_e4f37db7",
+   "player2": "player_fd92b04a"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 52,
+   "winner": "player_e51c992d",
+   "player1": "player_e51c992d",
+   "player2": "player_ffc46619"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 53,
+   "winner": "player_cba704cb",
+   "player1": "player_77d9d2f2",
+   "player2": "player_cba704cb"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 54,
+   "winner": "player_01468b8a",
+   "player1": "player_d7ead1cc",
+   "player2": "player_01468b8a"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 55,
+   "winner": "player_7d04b046",
+   "player1": "player_7d04b046",
+   "player2": "player_8e780a58"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 56,
+   "winner": "player_8977c8cb",
+   "player1": "player_e38f897c",
+   "player2": "player_8977c8cb"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 57,
+   "winner": "player_a358c114",
+   "player1": "player_735eea24",
+   "player2": "player_a358c114"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 58,
+   "winner": "player_49499879",
+   "player1": "player_49499879",
+   "player2": "player_0778d4b0"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 59,
+   "winner": "player_c9f0a9cd",
+   "player1": "player_c9f0a9cd",
+   "player2": "player_8bd963ed"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 60,
+   "winner": 0,
+   "player1": "player_9538ffff",
+   "player2": "player_a084a868"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 61,
+   "winner": 0,
+   "player1": "player_7722aba4",
+   "player2": "player_2356fe75"
+  },
+  {
+   "round": 6,
+   "phase": 1,
+   "table": 62,
+   "winner": "player_52cf9995",
+   "player1": "player_52cf9995"
+  }
+ ]
+}

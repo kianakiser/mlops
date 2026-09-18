@@ -122,6 +122,7 @@ def run(*, min_players: int, limit: int, out_dir: Path, dry_run: bool) -> int:
     log.info("settings: %s", redacted(settings))
 
     client = LimitlessClient(
+        base_url=settings.source_api_base_url,
         cache_dir=out_dir.parent / "raw_cache",
         api_key=settings.source_api_key or None,
     )

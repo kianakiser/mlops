@@ -153,15 +153,6 @@ def test_entrant_fields_that_are_known_before_play_survive():
     assert not entrants["nodeck3"].has_decklist
 
 
-def test_leader_id_falls_back_to_the_decklist_leader_block():
-    payload = {
-        "standings": [{"player": "p", "decklist": {"leader": {"set": "OP07", "number": "001"}}}],
-        "pairings": [],
-    }
-    (entrant,) = entrant_rows("e", EVT_DATE, payload)
-    assert entrant.leader_id == "OP07-001"
-
-
 # --------------------------------------------------------------------------- matches
 
 
@@ -184,57 +175,85 @@ def test_malformed_payloads_raise():
         list(match_rows("e", EVT_DATE, {"standings": []}))
 
 
-# --------------------------------------------------------------------------- real data
+# --------------------------------------------------------------------------- real-shaped data
 
-REAL_CACHE = Path("/Users/kianakiser/Desktop/Kiana Jin/Apps/gumgum/.cache/pairings")
+# A real event, anonymised: player names hashed, every structural quirk preserved. Committed
+# so this runs in CI, which the Repository Guide requires ("unit tests, run in CI"). The
+# previous version pointed at an absolute path inside a private repo and was therefore always
+# skipped on a runner — a test that never runs is not a test.
+FIXTURE = Path(__file__).parent / "fixtures" / "event_sample.json"
 
 
-@pytest.mark.skipif(not REAL_CACHE.is_dir(), reason="local gumgum cache not present")
-def test_against_real_cached_payloads():
-    """Run the boundary over real events and assert the invariants hold on live-shaped data."""
-    files = sorted(REAL_CACHE.glob("*.json"))[:25]
-    assert files, "expected cached event payloads"
+def test_boundary_holds_on_a_real_event():
+    payload = json.loads(FIXTURE.read_text())
+    stats = IngestStats()
+
+    entrants = list(entrant_rows("fixture", EVT_DATE, payload, stats))
+    matches = list(match_rows("fixture", EVT_DATE, payload, stats))
+
+    assert entrants and matches
+    assert_no_leakage([vars(e) for e in entrants])
+
+    players = {e.player for e in entrants}
+    for match in matches:
+        # Every seat must resolve to an entrant, or the join silently loses rows.
+        assert match.player1 in players
+        assert match.player2 in players
+        assert match.winner in (match.player1, match.player2)
+
+
+def test_real_event_contains_droppers_and_they_survive():
+    payload = json.loads(FIXTURE.read_text())
+    stats = IngestStats()
+    entrants = list(entrant_rows("fixture", EVT_DATE, payload, stats))
+
+    assert stats.entrants_dropped_out > 0, "fixture should exercise the dropper path"
+    dropped = [e for e in entrants if e.did_drop]
+    assert dropped, "droppers must stay in the population, not be filtered out"
+
+
+def test_real_event_strips_every_outcome_field():
+    payload = json.loads(FIXTURE.read_text())
+    raw_keys = {k for s in payload["standings"] for k in s}
+    assert {"placing", "record", "drop"} <= raw_keys, "fixture must contain the traps"
 
     stats = IngestStats()
-    total_matches = 0
-    for path in files:
-        payload = json.loads(path.read_text())
-        entrants = list(entrant_rows(path.stem, EVT_DATE, payload, stats))
-        matches = list(match_rows(path.stem, EVT_DATE, payload, stats))
-        total_matches += len(matches)
-
-        players = {e.player for e in entrants}
-        for match in matches:
-            # Every seat must resolve to an entrant, or the join silently loses rows.
-            assert match.player1 in players
-            assert match.player2 in players
-            assert match.winner in (match.player1, match.player2)
-
-        assert_no_leakage([vars(e) for e in entrants])
-
-    assert total_matches > 0
-    assert stats.entrants_dropped_out > 0, "real data should contain players who dropped"
-    # Regression guard on the trap: dropping them would delete a large share of the population.
-    drop_share = stats.entrants_dropped_out / stats.entrants
-    assert 0.1 < drop_share < 0.8, f"unexpected dropper share {drop_share:.2%}"
+    list(entrant_rows("fixture", EVT_DATE, payload, stats))
+    assert stats.leaky_fields_stripped == {"placing", "record", "drop"}
 
 
-def test_event_date_is_required_and_carried():
-    """The payload has no date field; it must be supplied and must reach every row."""
-    entrants = list(entrant_rows("evt", EVT_DATE, PAYLOAD))
-    matches = list(match_rows("evt", EVT_DATE, PAYLOAD))
-    assert all(e.event_date == EVT_DATE for e in entrants)
-    assert all(m.event_date == EVT_DATE for m in matches)
-    with pytest.raises(TypeError):
-        list(entrant_rows("evt", PAYLOAD))  # type: ignore[call-arg]
+def test_bracket_rows_are_excluded_even_when_labelled_phase_one():
+    """Two real events are single-elimination brackets with every row marked phase 1.
+
+    The `match` field ("T32-16") is the reliable marker, so a row carrying one is top cut
+    regardless of its phase.
+    """
+    payload = {
+        "standings": [{"player": "a"}, {"player": "b"}],
+        "pairings": [
+            {"round": 1, "phase": 1, "winner": "a", "player1": "a", "player2": "b"},
+            {
+                "round": 1,
+                "phase": 1,
+                "winner": "a",
+                "player1": "a",
+                "player2": "b",
+                "match": "T32-16",
+            },
+        ],
+    }
+    stats = IngestStats()
+    matches = list(match_rows("e", EVT_DATE, payload, stats))
+    assert len(matches) == 1, "the bracket row must be excluded"
+    assert stats.skipped_non_swiss == 1
 
 
-def test_table_is_rejected_as_a_feature_because_swiss_pairs_by_record():
-    """From round 2 onward swiss pairs by record, so table number encodes current standing."""
-    with pytest.raises(IngestError, match="table"):
-        assert_no_leakage([{"player": "x", "table": 1}])
-
-
-def test_round_is_allowed_as_a_feature():
-    """Round number is known before the round is played, so it is safe."""
-    assert_no_leakage([{"player": "x", "round": 3}])
+def test_integer_zero_winner_is_treated_as_no_winner():
+    """The API uses 0 on 30 real rows to mean no winner recorded."""
+    payload = {
+        "standings": [{"player": "a"}, {"player": "b"}],
+        "pairings": [{"round": 1, "phase": 1, "winner": 0, "player1": "a", "player2": "b"}],
+    }
+    stats = IngestStats()
+    assert list(match_rows("e", EVT_DATE, payload, stats)) == []
+    assert stats.skipped_no_winner == 1

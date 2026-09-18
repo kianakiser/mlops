@@ -48,6 +48,13 @@ FORBIDDEN_FEATURE_FIELDS = LEAKY_STANDING_FIELDS | WITHIN_EVENT_OUTCOME_PROXIES
 # than by the swiss algorithm and the population is already outcome-selected.
 SWISS_PHASE = 1
 
+# Phase alone is not enough. Two events in the backfill are pure single-elimination
+# brackets whose rows are all labelled phase 1 round 1 — 31 pairings for 32 entrants,
+# no table numbers, and every row carrying a bracket slot like "T32-16". The `match`
+# field is the reliable marker: it appears on bracket rows and nowhere else, so a row
+# that has one is top cut no matter what its phase says.
+BRACKET_MARKER = "match"
+
 
 class IngestError(ValueError):
     """A payload did not have the shape this module requires."""
@@ -117,12 +124,10 @@ def _leader_id(standing: dict[str, Any]) -> str | None:
     deck = standing.get("deck")
     if isinstance(deck, dict) and deck.get("id"):
         return str(deck["id"])
-    # Fall back to the decklist's own leader block when `deck` is absent.
-    decklist = standing.get("decklist")
-    if isinstance(decklist, dict):
-        leader = decklist.get("leader")
-        if isinstance(leader, dict) and leader.get("set") and leader.get("number"):
-            return f"{leader['set']}-{leader['number']}"
+    # Deliberately no fallback to decklist.leader: across all 198 cached events there is
+    # no row where `deck` is absent but a decklist leader is present, so a fallback would
+    # be untested code kept alive by a fixture. If the provider ever changes, this returns
+    # None and the row is dropped loudly rather than silently guessed at.
     return None
 
 
@@ -194,7 +199,7 @@ def match_rows(
             continue
         stats.pairings_seen += 1
 
-        if pairing.get("phase") != SWISS_PHASE:
+        if pairing.get("phase") != SWISS_PHASE or BRACKET_MARKER in pairing:
             stats.skipped_non_swiss += 1
             continue
 

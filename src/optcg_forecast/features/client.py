@@ -71,6 +71,7 @@ class TokenBucket:
 class LimitlessClient:
     """Fetches tournaments, standings and pairings, with an on-disk immutable cache."""
 
+    base_url: str = BASE_URL
     cache_dir: Path | None = None
     api_key: str | None = None
     timeout_s: float = 30.0
@@ -79,7 +80,7 @@ class LimitlessClient:
     cache_hits: int = 0
 
     def _get(self, path: str, params: dict[str, Any] | None = None) -> Any:
-        url = f"{BASE_URL}{path}"
+        url = f"{self.base_url}{path}"
         if params:
             url = f"{url}?{urlencode(params)}"
         headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
