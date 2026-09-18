@@ -68,27 +68,29 @@ mlops-lab.ch showcase nor the KTH ID2223 lists. Check both explicitly and say so
 
 = 3 Data source & features
 
-Matches come from Limitless (play.limitlesstcg.com) through its public JSON API — `/tournaments`,
-`/tournaments/{id}/standings`, `/tournaments/{id}/pairings` — no auth, no scraping. GitHub Actions
-ingests daily; events are immutable once finished, so each is fetched once and appears the morning
-after it ends. Today that is 28,107 decided Swiss matches over 193 events and 11,890 entries,
-11,886 of them with a complete 50-card decklist, growing ≈ 570 matches and 3.5 events weekly.
+Matches come from Limitless (play.limitlesstcg.com) via its public JSON API: `/api/tournaments`,
+`{id}/standings`, `{id}/pairings` — no auth, no scraping. GitHub Actions ingests daily at 06:07
+UTC; finished events are immutable and fetched once. At 2026-09-18: 28,107 decided Swiss matches
+(both decklists resolved) over 193 events, 11,890 entries, 11,886 with full 50-card lists, growing
+≈ 570 matches and 3.5 events weekly. One online series supplies 82%, so the population is online
+best-of-one.
 
-The label is `pairings[].winner`, the username the platform records from the reported result; it is
-not computable from either decklist. It is balanced — seat 1 wins 50.5% (95% CI 49.9–51.1%,
-n = 27,506) — so there is no rare positive class; scarcity sits in the archetype tail, where 13.0%
-of held-out deck-sides use a leader unseen in training.
+*Label.* `pairings[].winner`, the username the platform records from the reported result; no
+decklist rule yields it. Seat 1 wins 50.5% (95% CI 49.9–51.1%, n = 27,506), so no rare positive
+class exists. Scarcity is in the archetype tail: 13.0% of held-out deck-sides pilot a leader
+unseen in training. They stay in — leader attributes carry them, and priors shrink to 0.5 at zero
+history.
 
 *Features*, per side and differenced: `leader_id`, `leader_life`, `leader_power`,
 `leader_color_count`; deck aggregates `counter_2k_copies`, `avg_cost`, `high_curve_copies`,
-`big_body_copies`, `event_card_copies`, `distinct_cards`; and point-in-time `player_prior_winrate`
-and `archetype_prior_winrate`, shrunk toward 0.5 over strictly earlier events.
+`big_body_copies`, `event_card_copies`, `distinct_cards`; and `player_prior_winrate` and
+`archetype_prior_winrate` over strictly earlier events.
 
-*Leakage.* `placing`, `record` and `drop` are outcomes of the predicted event and are dropped
-physically at ingest. `placing` is null on 43.0% of 12,166 entries and every such row carries
-`drop`, so filtering `placing IS NOT NULL` would condition the sample on finishing the event.
-Splits are by event date, not by row: matches from one event share decks and pilots. The ingest
-persists each event's date from the tournament index, which the pairings payload omits.
+*Leakage.* `placing`, `record` and `drop` are outcomes of the predicted event and are dropped at
+ingest: `placing` is null on 43.0% of 12,166 raw entries, all of which carry `drop`, so filtering
+`placing IS NOT NULL` would condition on finishing. Splits are rolling-origin by event date, never
+by row (one event's matches share decks and pilots): train up to T, test (T, T+28d\]. The ingest
+must also persist the event date, which only the tournament index holds.
 
 = 4 System design
 
