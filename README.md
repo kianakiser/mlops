@@ -35,7 +35,7 @@ question — and out of time the per-player strength term turns out to contribut
 lives in archetype-vs-archetype matchup cells.
 
 **The label is not derivable from the features.** It is the outcome of a game between two humans.
-Player 1 wins 50.545% of 29,004 decided swiss matches — a Wilson CI of [49.97%, 51.12%], so seat
+Player 1 wins 50.56% of 28,942 decided swiss matches — a Wilson CI of [49.98%, 51.14%], so seat
 position is not distinguishable from a coin flip and carries no free signal.
 
 **Success criterion.** Pooled **Brier ≤ 0.2490** against the coin-flip 0.2500, over ≥ 6 held-out
@@ -52,8 +52,8 @@ month says it could.
 | | |
 |---|---|
 | Source | Limitless TCG tournament API (`play.limitlesstcg.com/api`) — keyless, community-run |
-| Backfill on disk | 198 events · 29,807 pairings · 12,166 entrants · **11,575 with full 50-card decklists** (95.1%) |
-| Usable matches | **29,004** decided swiss matches; 6,072 of them round 1 |
+| Corpus (to 2026-09-18) | 198 events · 12,166 entrants · **11,575 with full 50-card decklists** (95.1%) |
+| Usable matches | **28,942** decided swiss matches; 6,010 of them round 1 |
 | Update | event-driven; new events are immutable once finished, so re-fetch by id is safe |
 
 Ingest is deliberately polite: finished events are cached permanently because they never change,
@@ -82,6 +82,11 @@ Two traps, both handled at the ingest boundary in
    **175 of them still received a placing** — so `drop IS NOT NULL` is the correct test, not
    `placing IS NULL`.
 
+3. **Top-cut brackets mislabelled as swiss.** Two events are pure single-elimination brackets
+   whose rows all carry `phase: 1`. The `match` field (`"T32-16"`) is the reliable marker, so a row
+   carrying one is excluded regardless of its phase — 62 matches that would otherwise have been
+   counted as swiss.
+
 Splits are **out of time**, by event date, with events as the clustering unit for bootstrap
 intervals. Matches from one event never straddle the split.
 
@@ -108,7 +113,8 @@ Regenerate the diagram after any stack change:
 | Concern | Choice | Why |
 |---|---|---|
 | Feature store | Hopsworks | point-in-time-correct joins — training and serving read one feature definition, so a player-history feature can never silently include the event being predicted |
-| Model registry | Hopsworks | the same hosted service as the feature store, so there is no tracking server to operate; promotion moves the `champion` alias rather than redeploying |
+| Model registry | Hopsworks | the same hosted service as the feature store; promotion moves the `champion` alias rather than redeploying |
+| Experiment tracking | Weights & Biases | hosted run tracking, so there is no MLflow server to operate for a project this size |
 | Orchestration | GitHub Actions | scheduled pipelines live beside the code, and the runner stays the ingest edge rather than a cloud IP range |
 | Serving | Google Cloud Run | container deploy, scales to zero between events |
 | Storage | Google Cloud Storage | immutable partitioned landing zone for raw payloads, so features can always be rebuilt |
@@ -150,7 +156,7 @@ GitHub Actions secrets for the scheduled pipelines.
 |---|---|
 | `SOURCE_API_BASE_URL` / `SOURCE_API_KEY` | tournament API endpoint and key, if one is issued |
 | `HOPSWORKS_API_KEY` / `HOPSWORKS_PROJECT` | feature store access |
-| `WANDB_API_KEY` | experiment tracking (optional; stretch) |
+| `WANDB_API_KEY` | experiment tracking |
 | `GCP_PROJECT_ID` / `GCS_BUCKET` / `GCP_REGION` | serving and raw-payload storage |
 
 ## Tests

@@ -41,7 +41,7 @@
 probability the seat-1 player wins, from both registered decklists and both pilots' results at
 strictly earlier events. For competitive players and deck-builders.
 
-*Horizon.* One match. The model is given only what is known before the first card is played — the
+*Horizon.* One match, priced at pairing time and resolved within the hour it is played. The model is given only what is known before the first card is played — the
 two registered 50-card lists and both pilots' results at strictly earlier events — and predicts
 that match's outcome. It is served on demand through a web UI (a player picks two decks and gets a
 probability), and the same model is scored nightly against every match that resolved since the
@@ -51,12 +51,15 @@ not live in-tournament inference. The reported winner is the label and is not co
 feature.
 
 *Scope.* Online Swiss rounds, predominantly best-of-one, at 32+ entrant events on
-play.limitlesstcg.com; top cut, byes, ties and unresolvable decklists excluded — 28,107 matches as
-of 2026-09-18, 82.1% of them from one recurring series, so claims cover online play only.
+play.limitlesstcg.com. Top cut, byes, ties and unresolved seats excluded — including two events
+whose single-elimination brackets are mislabelled as Swiss. One corpus is used throughout: the
+198 events ingested to 2026-09-18, *28,942 decided Swiss matches* over 12,166 entrants.
+82.8% of events and 80.2% of matches come from one recurring series, so claims cover online play
+only.
 
 *Success criterion.* Baseline: a coin flip — Brier 0.2500, log loss 0.6931 — because the label is
-balanced by construction: seat 1 wins 50.5% of 29,004 decided pairings in the cached corpus
-(Wilson 95% CI 50.0–51.1%), leaving no majority-class rule and no rare positive class. Success =
+balanced by construction: seat 1 wins 50.56% of those 28,942 matches (Wilson 95% CI
+49.98–51.14%), leaving no majority-class rule and no rare positive class. Success =
 pooled over ≥ 6 held-out 28-day windows *split by event date, never by row* (≥ 8,000 matches):
 Brier ≤ 0.2490 with the skill interval (0.2500 − Brier, whole-event bootstrap) excluding zero, and
 calibration gaps ≤ 3 points in every 5-point favourite bucket with n ≥ 250. Reproducing the
@@ -75,16 +78,17 @@ mlops-lab.ch showcase nor the KTH ID2223 lists. Check both explicitly and say so
 
 Matches come from Limitless (play.limitlesstcg.com) via its public JSON API: `/api/tournaments`,
 `{id}/standings`, `{id}/pairings` — no auth, no scraping. GitHub Actions ingests daily at 06:07
-UTC; finished events are immutable and fetched once. At 2026-09-18: 28,107 decided Swiss matches
-(both decklists resolved) over 193 events, 11,890 entries, 11,886 with full 50-card lists, growing
-≈ 570 matches and 3.5 events weekly. One online series supplies 82%, so the population is online
-best-of-one.
+UTC; finished events are immutable and fetched once. At 2026-09-18 the corpus holds *28,942 decided Swiss
+matches* over 198 events and 12,166 entrants, *11,575 of them (95.1%) with a full 50-card list*,
+growing ≈ 570 matches and 3.5 events weekly. The source is live, not an archive: seven in-scope
+events existed in the index but not in the corpus when this was written, the newest a day old.
 
 *Label.* `pairings[].winner`, the username the platform records from the reported result; no
-decklist rule yields it. Seat 1 wins 50.5% (95% CI 49.9–51.1%, n = 27,506), so no rare positive
-class exists. Scarcity is in the archetype tail: 13.0% of held-out deck-sides pilot a leader
-unseen in training. They stay in — leader attributes carry them, and priors shrink to 0.5 at zero
-history.
+decklist rule yields it. Seat 1 wins 50.56% on that same corpus, so no rare positive
+class exists. Scarcity is in the archetype tail: a new set every 2–3 months introduces leaders with
+no history at all, and 3–5 of the top 10 archetypes turn over at each release. Those rows stay in:
+the service returns 0.5 with an explicit `coverage` flag rather than guessing, because a
+leader-attribute backoff measured worse than a coin flip.
 
 *Features*, per side and differenced: `leader_id`, `leader_life`, `leader_power`,
 `leader_color_count`; deck aggregates `counter_2k_copies`, `avg_cost`, `high_curve_copies`,
@@ -110,13 +114,15 @@ events a week. It pulls the Limitless API, drops `placing`, `record` and `drop` 
 ingest boundary, persists each event's date from the tournament index — the pairings payload
 carries none, so without it no out-of-time split is possible — lands raw JSON in GCS and writes
 features to Hopsworks. Training reads the feature view, splits by event date, evaluates out of
-time, and registers the winner in the Hopsworks model registry under the alias `champion`. Cloud
-Run loads whatever currently carries that alias and serves win probabilities to the UI, logging
-each prediction so it can be scored once the match resolves; serving never calls the provider.
+time, and logs every run to Weights & Biases, and registers the winner in the Hopsworks
+model registry under the alias `champion`. Cloud Run loads whatever currently carries that alias
+and serves win probabilities to the UI, logging each prediction so it can be scored once the match
+resolves; serving never calls the provider.
 
 *Stack.* _Hopsworks_: point-in-time joins, so player history cannot include the event being
 predicted, and one hosted service covers both the feature store and the registry — promotion moves
-an alias rather than redeploying, and there is no tracking server to operate. _GitHub Actions_: schedules
+an alias rather than redeploying. _Weights & Biases_: hosted run tracking, so there is no MLflow
+server to operate for a project this size. _GitHub Actions_: schedules
 beside code and CI, and sole holder of the provider client — throttled to the published 50
 requests per 5 minutes, finished events cached write-once. _Cloud Run_: container deploy, scales
 to zero between events. _GCS_: immutable landing zone, so features rebuild without re-fetching.
