@@ -25,14 +25,24 @@ For every contested swiss pairing in an online tournament on
 hour, so the label arrives on its own — a natural label, with no manual annotation anywhere in
 the loop.
 
-**Why this is hard, and why it is interesting:** strong players pick strong decks. A naive
-archetype win rate therefore credits the *deck* for the *pilot*. The modelling question is
-separating the two — estimating deck strength net of who was driving it.
+**Why this is hard, and why it is interesting:** strong players pick strong decks, so a naive
+archetype win rate credits the *deck* for the *pilot*. Separating the two is the modelling
+question — and out of time the per-player strength term turns out to contribute almost nothing
+(Brier 0.2464 with it, 0.2465 without), while a random split makes it look essential. The signal
+lives in archetype-vs-archetype matchup cells.
 
 **The label is not derivable from the features.** It is the outcome of a game between two humans.
-Over the full backfill, player 1 wins **50.54%** of 29,004 decided swiss matches, so seat position
-carries essentially no signal, and no function of decklist contents or prior history determines
-who wins.
+Player 1 wins 50.545% of 29,004 decided swiss matches — a Wilson CI of [49.97%, 51.12%], so seat
+position is not distinguishable from a coin flip and carries no free signal.
+
+**Success criterion.** Pooled **Brier ≤ 0.2490** against the coin-flip 0.2500, over ≥ 6 held-out
+28-day windows (≥ 8,000 matches), with the 95% event-cluster bootstrap CI on the skill excluding
+zero — plus calibration within 3 pp in every 5-pp favourite bucket with n ≥ 250.
+
+An out-of-time reproduction of the existing model reaches Brier **0.2465** (skill +0.0035, CI
+[+0.0023, +0.0047]) and **54.65%** accuracy. The edge is real but small — about 1.4% relative —
+and the criterion is set where six months of real history says it holds, not where a single good
+month says it could.
 
 ## Data
 
